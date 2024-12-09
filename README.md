@@ -68,6 +68,25 @@ Run the test suite using the following command:
 
 This will execute all unit tests configured in the project.
 
+How to Configure and Run Checkstyle
+-----------------------------------
+
+### Step 1: Add Checkstyle Plugin to the `build.gradle`
+
+To integrate Checkstyle into my project, include the Checkstyle plugin in my `build.gradle` file. Specify the tool version and the path to my `checkstyle.xml` configuration file. we can also configure the reports to be generated in HTML format for easier viewing.
+
+### Step 2: Create the Checkstyle Configuration
+
+Create a Checkstyle configuration file  `checkstyle.xml`in a specified directory  `config/checkstyle/`. This file will contain the rules for checking your code style.
+
+### Step 3: Run Checkstyle
+
+Once Checkstyle is configured, run the following Gradle command to check your main code:
+
+
+`./gradlew checkstyleMain`
+
+
 API Documentation
 -----------------
 
