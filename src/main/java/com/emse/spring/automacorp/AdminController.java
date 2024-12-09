@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-
     // This endpoint is restricted to users with the ADMIN role
     @GetMapping("/username")
     @PreAuthorize("hasRole('ADMIN')")
