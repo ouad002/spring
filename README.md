@@ -11,6 +11,8 @@ Table of Contents
 -   [How to Build the Project](#how-to-build-the-project)
 -   [How to Run the Project](#how-to-run-the-project)
 -   [How to Test the Project](#how-to-test-the-project)
+-   [How to Configure and Run Checkstyle](#How-to-Configure-and-Run-Checkstyle)
+-   [Pre-Commit Hook for Static Code Analysis](#Pre-Commit-Hook-for-Static-Code-Analysis)
 -   [API Documentation](#api-documentation)
 -   [Additional Notes](#additional-notes)
 
@@ -85,6 +87,30 @@ Once Checkstyle is configured, run the following Gradle command to check your ma
 
 
 `./gradlew checkstyleMain`
+
+Pre-Commit Hook for Static Code Analysis
+-----------------------------------
+
+This project uses a pre-commit hook to automate static code analysis with Checkstyle. The hook ensures that code follows the project's style and quality standards before a commit is made. It runs Checkstyle on staged files and reports any violations, but does not block the commit even if violations are found.
+
+### How to Use the Pre-Commit Hook
+When you clone this repository, you'll need to configure Git to use the custom pre-commit hook. 
+### Configure Git to Use the Custom Hooks Directory
+
+To tell Git to use the `.githooks` directory for hooks instead of the default `.git/hooks` directory, run the following command:
+
+`git config core.hooksPath .githooks`
+
+### Verify that the hook is set up
+
+To ensure that Git is using the `.githooks` directory, you can check the configuration with the following command:
+
+`git config --get core.hooksPath`
+
+### Commit as usual
+
+After setting up the pre-commit hook, continue making commits as usual. The pre-commit hook will automatically run Checkstyle on staged files before each commit and report any violations in the terminal. Note that the commit will not be blocked if violations are found.
+
 
 
 API Documentation
