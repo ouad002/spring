@@ -27,6 +27,14 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	testImplementation("org.springframework.security:spring-security-test")
+	// Spring Boot Starter Logging (includes Logback and SLF4J)
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+	// SLF4J API (already included with spring-boot-starter-logging, but ensure it's there if not)
+	implementation 'org.slf4j:slf4j-api'
+
+	// Logback Classic (default logging backend for Spring Boot)
+	implementation 'ch.qos.logback:logback-classic'
 }
 
 tasks.named('test') {
