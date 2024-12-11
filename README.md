@@ -13,6 +13,7 @@ Table of Contents
 -   [How to Test the Project](#how-to-test-the-project)
 -   [How to Configure and Run Checkstyle](#How-to-Configure-and-Run-Checkstyle)
 -   [Pre-Commit Hook for Static Code Analysis](#Pre-Commit-Hook-for-Static-Code-Analysis)
+-   [How to Generate Javadoc](#how-to-generate-javadoc)
 -   [API Documentation](#api-documentation)
 -   [Additional Notes](#additional-notes)
 
@@ -111,7 +112,22 @@ To ensure that Git is using the `.githooks` directory, you can check the configu
 
 After setting up the pre-commit hook, continue making commits as usual. The pre-commit hook will automatically run Checkstyle on staged files before each commit and report any violations in the terminal. Note that the commit will not be blocked if violations are found.
 
+How to Generate Javadoc
+-----------------------
 
+Javadoc is a documentation generator for Java code that extracts comments and annotations from the source code to create an HTML-based reference manual.
+
+### Step 1: Add Javadoc Comments
+
+Ensure that all your Java classes and methods have proper Javadoc comments. Javadoc comments start with `/**` and are placed just above the class or method declaration.
+
+### Step 2: Add Javadoc Comments
+
+To generate the Javadoc for the project, run the following command:
+
+`./gradlew javadoc`
+
+This will generate the documentation and store the HTML files in the `build/docs/javadoc directory`
 
 API Documentation
 -----------------
