@@ -65,6 +65,6 @@ public class WindowController {
     }
 }
 
-// demo github actions workflow for multiple java versions 17 and 21
+// demo github actions workflow for multiple java versions 17 and 21 with gradle
 
 
