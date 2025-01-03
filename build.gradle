@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'checkstyle'
+	id "org.sonarqube" version "6.0.1.5171"
 }
 
 group = 'com.emse.spring'
@@ -57,3 +58,10 @@ tasks.withType(Checkstyle) {
 	}
 }
 
+sonar {
+  properties {
+    property "sonar.projectKey", "ouad002_spring"
+    property "sonar.organization", "ouad002"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
