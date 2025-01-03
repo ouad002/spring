@@ -3,10 +3,10 @@ name: Java CI
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -29,6 +29,10 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
+    - name: Run Checkstyle
+      run: ./gradlew checkstyleMain
+      continue-on-error: true
 
     - name: Build with Gradle
       run: ./gradlew build
