@@ -75,7 +75,7 @@ jobs:
       uses: docker://ruby:2.7
       with:
         args: |
-          sudo gem install github_changelog_generator
+          gem install github_changelog_generator
           github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release
