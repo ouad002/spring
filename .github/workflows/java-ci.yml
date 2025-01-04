@@ -73,7 +73,7 @@ jobs:
 
     - name: Generate Changelog
       run: |
-        docker run --rm -v $(pwd):/usr/src/app -w /usr/src/app ruby:2.7 sh -c "gem install github_changelog_generator && github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}"
+        docker run --rm -v $(pwd):/usr/src/app -w /usr/src/app ruby:2.7 sh -c "gem install public_suffix -v 5.1.1 && github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}"
 
     - name: Create Release
       id: create_release
