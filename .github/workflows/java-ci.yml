@@ -71,12 +71,12 @@ jobs:
         distribution: 'temurin'
         java-version: 17
 
-    - name: Install GitHub Changelog Generator
-      run: sudo gem install github_changelog_generator
-
     - name: Generate Changelog
-      run: |
-        github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}
+      uses: docker://ruby:2.7
+      with:
+        args: |
+          sudo gem install github_changelog_generator
+          github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release
       id: create_release
