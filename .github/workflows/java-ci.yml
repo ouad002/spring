@@ -72,11 +72,8 @@ jobs:
         java-version: 17
 
     - name: Generate Changelog
-      uses: docker://ruby:2.7
-      with:
-        args: |
-          gem install github_changelog_generator
-          github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        docker run --rm -v $(pwd):/usr/src/app -w /usr/src/app ruby:2.7 sh -c "gem install github_changelog_generator && github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}"
 
     - name: Create Release
       id: create_release
