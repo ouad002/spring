@@ -41,7 +41,18 @@ jobs:
     - name: Run tests
       run: ./gradlew test
 
-    
+    - name: Run SonarCloud analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+      run: ./gradlew sonarqube -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+    - name: Check for secrets with TruffleHog
+      uses: trufflesecurity/trufflehog@v3.8.0
+      with:
+        path: '.'
+
+   
 
    
       
