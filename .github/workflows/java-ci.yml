@@ -55,8 +55,7 @@ jobs:
       uses: trufflesecurity/trufflehog@v3.8.0
       with:
         path: '.'
-      
-
+  
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -79,7 +78,7 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
@@ -90,7 +89,7 @@ jobs:
     - name: Upload Build Artifact
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./build/libs/automacorp-0.0.1-SNAPSHOT.jar
@@ -100,7 +99,7 @@ jobs:
     - name: Upload Checkstyle Report
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./build/reports/checkstyle/main.html
@@ -110,11 +109,13 @@ jobs:
     - name: Upload Test Report
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./build/reports/tests/test/index.html
         asset_name: test-report.html
         asset_content_type: text/html
+
+   
       
       
