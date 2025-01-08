@@ -34,10 +34,10 @@ jobs:
 
     - name: Run Checkstyle
       run: ./gradlew checkstyleMain
-      continue-on-error: true
+      
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew bootJar
       
 
     - name: Run tests
@@ -55,7 +55,8 @@ jobs:
       uses: trufflesecurity/trufflehog@v3.8.0
       with:
         path: '.'
-  
+    
+
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -73,6 +74,9 @@ jobs:
     - name: Generate Changelog
       run: |
         docker run --rm -v $(pwd):/usr/src/app -w /usr/src/app ruby:3.0 sh -c "gem install public_suffix -v 5.1.1 && gem install github_changelog_generator --user-install && export PATH=\$PATH:\$(ruby -e 'print Gem.user_dir')/bin && github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}"
+
+    - name: List Build Directory
+      run: ls -la build/libs
 
     - name: Create Release
       id: create_release
