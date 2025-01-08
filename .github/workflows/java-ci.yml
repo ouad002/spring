@@ -92,10 +92,12 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: checkstyle-report
+        path: build/reports/checkstyle/
     - name: Download Test Report
       uses: actions/download-artifact@v3
       with:
         name: test-report
+        path: build/reports/tests/test/
 
     - name: Generate Changelog
       run: |
@@ -131,7 +133,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./build/reports/checkstyle/main.html
-        asset_name: checkstyle-report.html
+        asset_name: main.html
         asset_content_type: text/html
 
     - name: Upload Test Report
@@ -141,7 +143,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./build/reports/tests/test/index.html
-        asset_name: test-report.html
+        asset_name: index.html
         asset_content_type: text/html
 
    
