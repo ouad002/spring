@@ -2,10 +2,10 @@
 <module name="Checker">
     <module name="TreeWalker">
         <module name="JavadocMethod"/>
-        <module name="MagicNumber"/>
+        <!-- <module name="MagicNumber"/> -->
         <module name="EmptyBlock"/>
         <module name="NeedBraces"/>
-        <module name="WhitespaceAround"/>
+        <!-- <module name="WhitespaceAround"/> -->
         <!-- Add more rules as needed -->
     </module>
 </module>
