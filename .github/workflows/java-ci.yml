@@ -57,6 +57,17 @@ jobs:
       with:
         name: build-artifacts
         path: build/libs/
+    - name: Upload Checkstyle Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: checkstyle-report
+        path: build/reports/checkstyle/main.html
+  
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: build/reports/tests/test/index.html
 
   release:
     needs: build
@@ -77,13 +88,19 @@ jobs:
       with:
         name: build-artifacts
         path: build/libs/
+    - name: Download Checkstyle Report
+      uses: actions/download-artifact@v3
+      with:
+        name: checkstyle-report
+    - name: Download Test Report
+      uses: actions/download-artifact@v3
+      with:
+        name: test-report
 
     - name: Generate Changelog
       run: |
         docker run --rm -v $(pwd):/usr/src/app -w /usr/src/app ruby:3.0 sh -c "gem install public_suffix -v 5.1.1 && gem install github_changelog_generator --user-install && export PATH=\$PATH:\$(ruby -e 'print Gem.user_dir')/bin && github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}"
 
-    - name: List Build Directory
-      run: ls -la build/libs
 
     - name: Create Release
       id: create_release
