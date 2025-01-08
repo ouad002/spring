@@ -52,7 +52,99 @@ jobs:
       with:
         path: '.'
 
-   
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: build/libs/
+    - name: Upload Checkstyle Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: checkstyle-report
+        path: build/reports/checkstyle/main.html
+  
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: build/reports/tests/test/index.html
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: 17
+
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
+        path: build/libs/
+    - name: Download Checkstyle Report
+      uses: actions/download-artifact@v3
+      with:
+        name: checkstyle-report
+        path: build/reports/checkstyle/
+    - name: Download Test Report
+      uses: actions/download-artifact@v3
+      with:
+        name: test-report
+        path: build/reports/tests/test/
+
+    - name: Generate Changelog
+      run: |
+        docker run --rm -v $(pwd):/usr/src/app -w /usr/src/app ruby:3.0 sh -c "gem install public_suffix -v 5.1.1 && gem install github_changelog_generator --user-install && export PATH=\$PATH:\$(ruby -e 'print Gem.user_dir')/bin && github_changelog_generator -u ${{ github.repository_owner }} -p ${{ github.event.repository.name }} --token ${{ secrets.GITHUB_TOKEN }}"
+
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body_path: CHANGELOG.md
+        draft: false
+        prerelease: false
+
+    - name: Upload Build Artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/libs/automacorp-0.0.1-SNAPSHOT.jar
+        asset_name: automacorp-0.0.1-SNAPSHOT.jar
+        asset_content_type: application/java-archive
+
+    - name: Upload Checkstyle Report
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/reports/checkstyle/main.html
+        asset_name: main.html
+        asset_content_type: text/html
+
+    - name: Upload Test Report
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/reports/tests/test/index.html
+        asset_name: index.html
+        asset_content_type: text/html
 
    
       
